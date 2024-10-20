@@ -39,6 +39,10 @@ app.use('/api/bidRoutes', bidRoutes); // Use the cashfree routes
 app.use('/api/winRoutes', winnerRoutes); // Use the cashfree routes
 app.use('/api/socialmedia', socialMediaRoutes);
 
+// Root route to check if the server is running
+app.get('/', (req, res) => {
+  res.send('Server is running');
+});
 
 
 // Start the server
