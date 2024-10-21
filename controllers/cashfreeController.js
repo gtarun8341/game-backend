@@ -14,7 +14,7 @@ const SERVER_URL = process.env.SERVER_URL ;
 // Controller to create an order
 exports.createOrder = async (req, res) => {
   const { orderId, order_amount, customer_details } = req.body;
-  console.log(customer_details, req.body);
+  console.log( req.body);
 
   const request = {
     order_amount,

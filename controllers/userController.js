@@ -4,18 +4,45 @@ const secret = 'your_jwt_secret'; // Use a secure secret
 
 exports.registerUser = async (req, res) => {
   try {
+    console.log("Request received:", req.body); // Log incoming request
+
     const { username, mobilenumber, password } = req.body;
-    console.log(req.body);
+
+    // Check if all required fields are provided
     if (!username || !mobilenumber || !password) {
+      console.log("Missing required fields:", { username, mobilenumber, password });
       return res.status(400).json({ message: 'Username, mobile number, and password are required.' });
     }
 
+    // Check if username already exists
+    const existingUserByUsername = await User.findOne({ username });
+    if (existingUserByUsername) {
+      console.log("Username already exists:", username);
+      return res.status(400).json({ message: 'Username already exists.' });
+    }
+
+    // Check if mobile number already exists
+    const existingUserByMobile = await User.findOne({ mobilenumber });
+    if (existingUserByMobile) {
+      console.log("Mobile number already exists:", mobilenumber);
+      return res.status(400).json({ message: 'Mobile number already exists.' });
+    }
+
+    // Log the user data before saving
+    console.log("Creating new user with data:", { username, mobilenumber, password });
+
+    // Create a new user and save to the database
     const newUser = new User({ username, mobilenumber, password });
     await newUser.save();
 
+    // Log successful save
+    console.log("User registered successfully:", newUser);
+
+    // Send the response with the registered user data
     res.status(201).json(newUser);
   } catch (error) {
-    console.log(error)
+    // Log the error details
+    console.log("Error occurred during registration:", error);
     res.status(500).json({ message: 'Server error' });
   }
 };

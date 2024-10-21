@@ -4,6 +4,7 @@ const Game = require('../models/Game'); // Adjust the path as needed
 // Controller to get the winning details of the user
 const getUserWinnings = async (req, res) => {
   try {
+    console.log("entered")
     const userId = req.userId; // Get the userId from the verified token
 
     // Fetch the winning details for the user
